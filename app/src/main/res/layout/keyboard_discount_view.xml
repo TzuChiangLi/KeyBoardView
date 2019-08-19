@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/keyboard_normal"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/keyboard_tv_title_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="当前金额：" />
+
+    <TextView
+        android:id="@+id/keyboard_tv_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_toEndOf="@+id/keyboard_tv_title_1"
+        android:text="800" />
+
+    <TextView
+        android:id="@+id/keyboard_tv_title_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/keyboard_tv_2"
+        android:text="折扣比例/优惠金额：" />
+
+    <TextView
+        android:id="@+id/keyboard_tv_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:text="8折/640" />
+
+
+    <EditText
+
+        android:id="@+id/keyboard_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/keyboard_tv_title_1" />
+
+
+</RelativeLayout>

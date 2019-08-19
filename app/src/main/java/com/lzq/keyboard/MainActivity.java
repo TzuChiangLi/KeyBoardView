@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements KeyboardView.OnIt
         setContentView(R.layout.activity_main);
         mEdt= findViewById(R.id.main_edt);
         mKeyboardView=findViewById(R.id.main_keyboard_view);
-        mKeyboardView.setmItemClickListener(this);
+        mKeyboardView.setOnKeyboardClickListener(this);
         mEdt.setInputType(InputType.TYPE_NULL);
         mEdt.setOnFocusChangeListener(this);
         mEdt.setOnClickListener(this);
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements KeyboardView.OnIt
 
     @Override
     public void onHideClick(View v) {
-        mKeyboardView.setShow(false);
     }
 
     @Override
@@ -67,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements KeyboardView.OnIt
         if (hasFocus){
             if (mKeyboardView.isShow()==false){
                 mKeyboardView.show();
-                mKeyboardView.setShow(true);
             }
         }
     }
@@ -79,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements KeyboardView.OnIt
                 KeyboardUtils.hideSoftInput(this);
                 if (mKeyboardView.isShow()==false){
                     mKeyboardView.show();
-                    mKeyboardView.setShow(true);
                 }
                 break;
         }

@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import java.util.List;
 
 public class KeyboardAdapter extends RecyclerView.Adapter<KeyboardAdapter.ViewHolder> implements View.OnClickListener {
@@ -103,6 +102,7 @@ public class KeyboardAdapter extends RecyclerView.Adapter<KeyboardAdapter.ViewHo
 
     public void setParentHeight(int parentHeight) {
         this.parentHeight = parentHeight;
+        Log.d(TAG, "----setParentHeight: "+parentHeight);
     }
 
 
