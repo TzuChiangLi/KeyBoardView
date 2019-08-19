@@ -3,6 +3,7 @@
 
 效果截图：
 ----
+![效果图](https://github.com/TzuChiangLi/KeyBoardView/blob/master/IMG_6547.GIF?raw=true "效果图")
 
 
 项目介绍：
