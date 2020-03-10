@@ -102,14 +102,15 @@ public class KeyboardView extends LinearLayout implements View.OnClickListener, 
         //添加键盘布局
         RecyclerView mRecyclerView = new RecyclerView(mContext);
         mRecyclerView.setOverScrollMode(OVER_SCROLL_NEVER);
-        mRecyclerView.setLayoutManager(new DisableScrollLayoutManager(getContext(), 3));
+        mRecyclerView.setLayoutManager(new DisableScrollLayoutManager(getContext(), 4));
+//        mRecyclerView.setLayoutManager(new DisableScrollLayoutManager(getContext(), 3));
         KeyboardAdapter mKeyboardAdapter = new KeyboardAdapter(mNumberList);
         //根据屏幕大小动态设置按键高度
-        mKeyboardAdapter.setParentHeight((ScreenUtils.getScreenHeight() / 13) * 5);
+        mKeyboardAdapter.setParentHeight((ScreenUtils.getScreenHeight() / 13) * 4);
         mRecyclerView.setAdapter(mKeyboardAdapter);
         mRecyclerView.addItemDecoration(new GridItemDecoration(mContext, Color.parseColor("#707070"), ConvertUtils.dp2px(1), GridItemDecoration.ALL));
         mKeyboardAdapter.setItemClickListener(this);
-        addView(mRecyclerView, new LayoutParams(MATCH_PARENT, (ScreenUtils.getScreenHeight() / 13) * 5));
+        addView(mRecyclerView, new LayoutParams(MATCH_PARENT, (ScreenUtils.getScreenHeight() / 13) * 4));
     }
 
     public void addDiscountView(int style) {
@@ -134,17 +135,59 @@ public class KeyboardView extends LinearLayout implements View.OnClickListener, 
     }
 
     private void initData() {
-        for (int i = 0; i < 12; i++) {
-            if (i < 9) {
-                mNumberList.add(String.valueOf(i + 1));
-            } else if (i == 9) {
-                mNumberList.add(".");
-            } else if (i == 10) {
-                mNumberList.add("0");
-            } else {
-                mNumberList.add("删除");
+        for (int i = 0; i < 16; i++) {
+            switch (i) {
+                case 0:
+                case 1:
+                case 2:
+                    mNumberList.add(String.valueOf(i + 1));
+                    break;
+                case 3:
+                    mNumberList.add("下一个");
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                    mNumberList.add(String.valueOf(i));
+                    break;
+                case 7:
+                    mNumberList.add("删除");
+                    break;
+                case 8:
+                case 9:
+                case 10:
+                    mNumberList.add(String.valueOf(i - 1));
+                    break;
+                case 11:
+                    mNumberList.add("清空");
+                    break;
+                case 12:
+                    mNumberList.add(".");
+                    break;
+                case 13:
+                    mNumberList.add("0");
+                    break;
+                case 14:
+                    mNumberList.add("取消");
+                    break;
+                case 15:
+                    mNumberList.add("确认");
+                    break;
+                default:
+                    break;
             }
         }
+//        for (int i = 0; i < 16; i++) {
+//            if (i < 9) {
+//                mNumberList.add(String.valueOf(i + 1));
+//            } else if (i == 9) {
+//                mNumberList.add(".");
+//            } else if (i == 10) {
+//                mNumberList.add("0");
+//            } else {
+//                mNumberList.add("删除");
+//            }
+//        }
     }
 
     public void show() {
@@ -183,14 +226,15 @@ public class KeyboardView extends LinearLayout implements View.OnClickListener, 
             isShow = false;
             dismiss();
             if (mItemClickListener != null) {
-                mItemClickListener.onHideClick(v);
+                mItemClickListener.onHideClick();
             }
         }
     }
 
     @Override
     public void onItemClick(View v, int position) {
-        int key_point = 9, key_delete = 11;
+        final int key_next = 3, key_delete = 7, key_clear = 11, key_point = 12, key_zero = 13;
+        final int key_cancel = 14, key_enter = 15;
         //待后续样式确定后，逻辑再做优化
         if (mEdt != null) {
             if ((int) v.getTag() == key_point) {
@@ -203,24 +247,78 @@ public class KeyboardView extends LinearLayout implements View.OnClickListener, 
             }
         }
         if (mItemClickListener != null) {
-            if ((int) v.getTag() == key_point) {
-                if (mEdt != null) {
-                    mEdt.getText().append('.');
-                }
-                mItemClickListener.onPointClick();
-            } else if ((int) v.getTag() == key_delete) {
-                if (mEdt != null) {
-                    mEdt.setText(TextUtils.isEmpty(mEdt.getText().toString()) ? "" :
-                            mEdt.getText().toString().trim().substring(0, mEdt.getText().toString().trim().length() - 1));
-                }
-                mItemClickListener.onDeleteClick();
-            } else {
-                if (mEdt != null) {
-                    mEdt.setText(mEdt.getText().append(String.valueOf(position + 1)));
-                }
-                mItemClickListener.onKeyClick(v, position + 1);
+            switch ((int) v.getTag()) {
+                case 0:
+                case 1:
+                case 2:
+                    mItemClickListener.onKeyClick(v, ((int) v.getTag()) + 1);
+                    break;
+                case key_next:
+                    mItemClickListener.onNextClick();
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                    mItemClickListener.onKeyClick(v, (int) v.getTag());
+                    break;
+                case key_delete:
+                    mItemClickListener.onDeleteClick();
+                    break;
+                case 8:
+                case 9:
+                case 10:
+                    mItemClickListener.onKeyClick(v, ((int) v.getTag()) - 1);
+                    break;
+                case key_clear:
+                    mItemClickListener.onClearClick();
+                    break;
+                case key_point:
+                    mItemClickListener.onPointClick();
+                    break;
+                case key_zero:
+                    mItemClickListener.onKeyClick(v, 0);
+                    break;
+                case key_cancel:
+                    mItemClickListener.onCancelClick();
+                    break;
+                case key_enter:
+                    mItemClickListener.onEnterClick();
+                    break;
+                default:
+                    break;
             }
+
+
         }
+//        if (mEdt != null) {
+//            if ((int) v.getTag() == key_point) {
+//                mEdt.getText().append('.');
+//            } else if ((int) v.getTag() == key_delete) {
+//                mEdt.setText(TextUtils.isEmpty(mEdt.getText().toString()) ? "" :
+//                        mEdt.getText().toString().trim().substring(0, mEdt.getText().toString().trim().length() - 1));
+//            } else {
+//                mEdt.setText(mEdt.getText().append(String.valueOf(position + 1)));
+//            }
+//        }
+//        if (mItemClickListener != null) {
+//            if ((int) v.getTag() == key_point) {
+//                if (mEdt != null) {
+//                    mEdt.getText().append('.');
+//                }
+//                mItemClickListener.onPointClick();
+//            } else if ((int) v.getTag() == key_delete) {
+//                if (mEdt != null) {
+//                    mEdt.setText(TextUtils.isEmpty(mEdt.getText().toString()) ? "" :
+//                            mEdt.getText().toString().trim().substring(0, mEdt.getText().toString().trim().length() - 1));
+//                }
+//                mItemClickListener.onDeleteClick();
+//            } else {
+//                if (mEdt != null) {
+//                    mEdt.setText(mEdt.getText().append(String.valueOf(position + 1)));
+//                }
+//                mItemClickListener.onKeyClick(v, position + 1);
+//            }
+//        }
     }
 
     public boolean isShow() {
@@ -388,10 +486,19 @@ public class KeyboardView extends LinearLayout implements View.OnClickListener, 
 
         /**
          * 隐藏
-         *
-         * @param v
          */
-        void onHideClick(View v);
+        void onHideClick();
+
+        /**
+         * 下一个
+         */
+        void onNextClick();
+
+        void onClearClick();
+
+        void onCancelClick();
+
+        void onEnterClick();
 
     }
 

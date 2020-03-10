@@ -3,7 +3,6 @@ package com.lzq.keyboard;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,7 +54,7 @@ public class KeyboardAdapter extends RecyclerView.Adapter<KeyboardAdapter.ViewHo
         viewHolder.mNumberTv.setText(mList.get(i));
         viewHolder.mNumberTv.setTextColor(Color.BLACK);
         viewHolder.mNumberTv.setTag(i);
-        viewHolder.mNumberTv.setBackgroundColor((i == 9 || i == 11) ? Color.parseColor("#dadada") : Color.WHITE);
+        viewHolder.mNumberTv.setBackgroundColor((i == 3 || i == 7 || i == 11 || i == 14 || i == 15) ? Color.parseColor("#dadada") : Color.WHITE);
         viewHolder.mNumberTv.setLayoutParams(
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, parentHeight / 4));
         viewHolder.mNumberTv.setOnClickListener(this);
@@ -72,7 +71,7 @@ public class KeyboardAdapter extends RecyclerView.Adapter<KeyboardAdapter.ViewHo
                     case MotionEvent.ACTION_MOVE:
                         break;
                     default:
-                        viewHolder.mNumberTv.setBackgroundColor((i == 9 || i == 11) ? Color.parseColor("#dadada") : Color.WHITE);
+                        viewHolder.mNumberTv.setBackgroundColor((i == 3 || i == 7 || i == 11 || i == 14 || i == 15)? Color.parseColor("#dadada") : Color.WHITE);
                         viewHolder.mNumberTv.setTextColor(Color.BLACK);
                         break;
                 }
@@ -102,7 +101,6 @@ public class KeyboardAdapter extends RecyclerView.Adapter<KeyboardAdapter.ViewHo
 
     public void setParentHeight(int parentHeight) {
         this.parentHeight = parentHeight;
-        Log.d(TAG, "----setParentHeight: "+parentHeight);
     }
 
 
